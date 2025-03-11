@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} Blog List {% endblock %}
+{% block content %}
+<h2>Blog Site</h2>
+    {% for article in object_list %}
+        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+        <p>- <bold>Description: </bold> {{ article.category.name }}</p>
+        <p>- <bold>Created on: </bold> {{ article.created_on }}</p>
+        <p>- <bold>Last Updated: </bold> {{ article.updated_on }}</p>
+    {% endfor %}
+{% endblock %}
