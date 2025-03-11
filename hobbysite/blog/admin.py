@@ -7,4 +7,6 @@ class ArticleAdmin(admin.TabularInline):
 class ArticleCategoryAdmin(admin.ModelAdmin):
     model = ArticleCategory
 
+admin.site.register(Article, ArticleAdmin)
+admin.site.register(ArticleCategory, ArticleCategoryAdmin)
 
