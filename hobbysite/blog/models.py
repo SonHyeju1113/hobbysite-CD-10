@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 
 class ArticleCategory(models.Model):
-    name = models.CharField(max_Length=255)
+    name = models.CharField(max_length=255)
     description = models.TextField(blank=False)
 
     def __str__(self):
