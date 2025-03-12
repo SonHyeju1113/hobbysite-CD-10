@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} Forum List {% endblock %}
+{% block content %}
+<h2>Forum Site</h2>
+    {% for forum in object_list %}
+        <a href="{{ forum.get_absolute_url }}">{{ forum.title }}</a>
+        <p>- <bold>Description: </bold> {{ forum.category.name }}</p>
+        <p>- <bold>Created on: </bold> {{ forum.created_on }}</p>
+        <p>- <bold>Last Updated: </bold> {{ forum.updated_on }}</p>
+    {% endfor %}
+{% endblock %}
