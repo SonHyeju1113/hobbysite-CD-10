@@ -13,10 +13,10 @@ class PostCategory(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length = 255)
-    category = models.ForeignKey(PostCategory, on.delete=models.SET_NULL, null = True, related_name = "category")
+    category = models.ForeignKey(PostCategory, on_delete=models.SET_NULL, null = True, related_name = "category")
     entry = models.TextField(blank = False)
     created_on = models.DateTimeField(auto_now_add = True)
-    updated_on = models.DateTimeFiled(auto_now = True)
+    updated_on = models.DateTimeField(auto_now = True)
 
     def __str__(self):
         return self.title
