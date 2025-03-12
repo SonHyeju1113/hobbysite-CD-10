@@ -22,7 +22,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post_detail', args = [str(self.pk)])
+        return reverse('forum:post_detail', args = [str(self.pk)])
 
     class Meta:
         ordering = ['-created_on']

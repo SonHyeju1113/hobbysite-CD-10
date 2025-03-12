@@ -3,7 +3,7 @@
 {% block content %}
 <h2>Forum Site</h2>
     {% for post in object_list %}
-        <a href="{{ forum.get_absolute_url }}">{{ post.title }}</a>
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
         <p>- <bold>Description: </bold> {{ post.category.name }}</p>
         <p>- <bold>Created on: </bold> {{ post.created_on }}</p>
         <p>- <bold>Last Updated: </bold> {{ post.updated_on }}</p>
