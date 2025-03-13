@@ -5,7 +5,7 @@ from django.urls import reverse
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255)
     
-    description = models.TextField
+    description = models.TextField(blank=False, default="")
 
     def __str__(self):
         return self.name
@@ -18,7 +18,7 @@ class Article(models.Model):
 
     category = models.ForeignKey(ArticleCategory, on_delete=models.SET_NULL, null=True, related_name='article')
 
-    entry = models.TextField
+    entry = models.TextField(blank=False, default="")
 
     created_on = models.DateTimeField(auto_now_add=True)
 
