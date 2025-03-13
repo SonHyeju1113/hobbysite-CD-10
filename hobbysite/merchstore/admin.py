@@ -11,3 +11,5 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('product_type', 'name', 'price', 'description',)
     ordering = ['name']
 
+admin.site.register(ProductType, ProductTypeAdmin)
+admin.site.register(Product, ProductAdmin)
