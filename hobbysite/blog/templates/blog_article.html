@@ -1,8 +1,12 @@
 {% extends 'blog_base.html' %}
 {% block title %} Blog {% endblock %}
 {% block content %}
-    <h2>{{article.title}}</h2>
-    <p>{{article.entry}}</p>
-    <p>- <bold>Created on: </bold> {{ article.created_on }}</p>
-    <p>- <bold>Last Updated: </bold> {{ article.updated_on }}</p>
+    <h2 style="text-align:center;">{{article.title}}</h2>
+    <hr>
+    <div class="entry-box">
+        <pre style="font-size:150%">{{article.entry}}</pre>
+    </div>
+    <hr>
+    <p style="font-size:70%;">Created on: {{ article.created_on }}</p>
+    <p style="font-size:70%;">Last Updated: {{ article.updated_on }}</p>
 {% endblock %}
