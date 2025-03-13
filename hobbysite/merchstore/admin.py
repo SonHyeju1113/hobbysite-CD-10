@@ -8,3 +8,6 @@ class ProductTypeAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     model = Product
+    list_display = ('product_type', 'name', 'price', 'description',)
+    ordering = ['name']
+
