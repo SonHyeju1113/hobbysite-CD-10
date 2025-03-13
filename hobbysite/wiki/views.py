@@ -5,6 +5,8 @@ from .models import Article
 # Create your views here.
 class ArticleList(ListView):
     model = Article
+    template_name = 'wiki_list.html'
 
 class ArticleDetail(DetailView):
     model = Article
+    template_name = 'wiki_detail.html'
