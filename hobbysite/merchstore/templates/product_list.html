@@ -1,14 +1,32 @@
 {% extends 'base.html' %}
 {% block title %} Product List {% endblock %}
 {% block content %}
-<h2>Product Types</h2>
-{% for product_type in product_types %}
-<h2>{{ product_type.name }}</h2>
-<h2 style="font-size: 16px; font-weight: normal;">{{ product_type.description }}</h2>
-<ul>
-    {% for product in product_type.product_type.all %}
-        <li><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></li>
-    {% endfor %}
-</ul>
-{% endfor %}
+
+<center>
+    <h2>📦Product Types</h2>
+</center>
+
+<center>
+    <table border="1" width="80%" cellspacing="0" cellpadding="10">
+        <tr>
+            <th>✨ Category ✨</th>
+            <th>🛍️ Available Products 🛍️</th>
+        </tr>
+
+        {% for product_type in product_types %}
+        <tr>
+            <td><b>💖 {{ product_type.name }}</b></td>
+            <td>
+                {{ product_type.description }}<br>
+                <ul>
+                    {% for product in product_type.product_type.all %}
+                        <li><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+
 {% endblock %}
