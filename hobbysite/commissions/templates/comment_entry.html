@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} Comments for {{ object.title }} {% endblock %}
+{% block content %}
+    <h2>Comments for {{ object.title }}:</h2>
+    {% for comment in comments %}
+        <p>{{comment.entry}}</p>
+        <p>- <bold>Created on: </bold> {{ comment.created_on }}</p>
+        <p>- <bold>Last Updated: </bold> {{ comment.updated_on }}</p>
+        <hr>
+    {% empty %}
+        <p>No comments</p>
+    {% endfor %}
+{% endblock %}
