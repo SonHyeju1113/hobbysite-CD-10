@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <style>
+
+        table, th, td {
+        border: 1px solid #000000;
+        }
+
+        tr:nth-child(odd) {
+        background-color: #fff4a0;
+        }
+
+        tr:nth-child(even) {
+        background-color: #ffffe8;
+        }
+
+        .entry-box {
+            display: grid;
+            place-items: center; 
+            background-color: #fff4a0;
+            color: #000000;
+            padding: 10px;
+            max-width: 750px;
+            width: 75%;
+            margin: auto;
+        }
+
+        .entry-box pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow-x: auto; 
+            text-align: left; 
+            width: 95%; 
+        }
+
+    </style>
+    <body style="background-color:#fafcd4;"></body>
+        <h1 style="text-align:center;"> :D :D :D Blogs by Besties :D :D :D </h1>
+        <div id="content">
+            <hr>
+            {%block content %}{% endblock %}
+        </div>
+    </body>
+</html>
