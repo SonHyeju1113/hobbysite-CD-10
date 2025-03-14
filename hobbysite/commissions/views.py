@@ -5,3 +5,7 @@ from .models import Comment
 class CommentListView(ListView):
     model = Comment
     template_name = 'comment_list.html'
+
+class CommentDetailView(DetailView):
+    model = Comment
+    template_name = 'comment_entry.html'
