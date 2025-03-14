@@ -11,6 +11,9 @@ class Commission(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('commissions:comment_detail', args=[str(self.pk)])
+
     class Meta:
         ordering = ['created_on']
 
@@ -19,9 +22,6 @@ class Comment(models.Model):
     entry = models.TextField(blank = False)
     created_on = models.DateTimeField(auto_now_add = True)
     updated_on = models.DateTimeField(auto_now = True)
-
-    def get_absolute_url(self):
-        return reverse('commissions:comment_detail', args=[str(self.pk)])
     
     class Meta:
         ordering = ['-created_on']
