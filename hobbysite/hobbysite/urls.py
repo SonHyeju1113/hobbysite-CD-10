@@ -19,5 +19,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('', include('forum.urls'))
+=======
+    path('', include('merchstore.urls'))
+>>>>>>> f52d4a22f4d677394d9872a56cb2c1b85ea70371
 ]
