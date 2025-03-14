@@ -21,7 +21,7 @@ class Comment(models.Model):
     updated_on = models.DateTimeField(auto_now = True)
 
     def get_absolute_url(self):
-        return reverse('', args=[str(self.pk)])
+        return reverse('commissions:comment_detail', args=[str(self.pk)])
     
     class Meta:
         ordering = ['-created_on']
