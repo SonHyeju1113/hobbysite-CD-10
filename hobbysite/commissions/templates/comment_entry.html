@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
-{% block title %} Comment {% endblock %}
+{% block title %} Comments for {{ object.title }} {% endblock %}
 {% block content %}
-    <p>{{object.entry}}</p>
-    <p>- <bold>Created on: </bold> {{ object.created_on }}</p>
-    <p>- <bold>Last Updated: </bold> {{ object.updated_on }}</p>
+    <h2>Comments for {{ object.title }}:</h2>
+    {% for comment in comments %}
+        <p>{{object.entry}}</p>
+        <p>- <bold>Created on: </bold> {{ object.created_on }}</p>
+        <p>- <bold>Last Updated: </bold> {{ object.updated_on }}</p>
+        <hr>
+    {% empty %}
+        <p>No comments</p>
+    {% endfor %}
 {% endblock %}
