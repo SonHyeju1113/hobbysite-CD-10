@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}{% endblock %}</title>
-    </head>
-    <body>
-        <h1>Hobby Site</h1>
-        <div id="content">
-            {%block content %}{% endblock %}
-        </div>
-    </body>
+    <title>🌸 {% block title %} Hobby Site {% endblock %} ✨</title>
+</head>
+<body>
+
+    <center>
+        <h1>💖 Hobby Site 💖</h1>
+    </center>
+
+    <hr>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <hr>
+
+    <center>
+        <p>🌟 Thank you for visiting! 🌟</p>
+    </center>
+
+</body>
 </html>
