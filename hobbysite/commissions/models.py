@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Commission(models.Model):
     title = models.CharField(max_length = 255)
@@ -18,6 +19,9 @@ class Comment(models.Model):
     entry = models.TextField(blank = False)
     created_on = models.DateTimeField(auto_now_add = True)
     updated_on = models.DateTimeField(auto_now = True)
+
+    def get_absolute_url(self):
+        return reverse('', args=[str(self.pk)])
     
     class Meta:
         ordering = ['-created_on']
