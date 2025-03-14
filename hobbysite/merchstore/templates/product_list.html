@@ -4,9 +4,10 @@
 <h2>Product Types</h2>
 {% for product_type in product_types %}
 <h2>{{ product_type.name }}</h2>
+<h2 style="font-size: 16px; font-weight: normal;">{{ product_type.description }}</h2>
 <ul>
     {% for product in product_type.product_type.all %}
-        <li><a href="{{ product.get_absolute_url }}">{{ product.name }}</a> - Description: {{ product.description }}</li>
+        <li><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></li>
     {% endfor %}
 </ul>
 {% endfor %}
