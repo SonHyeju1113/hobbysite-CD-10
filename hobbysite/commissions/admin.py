@@ -6,3 +6,6 @@ class CommissionAdmin(admin.ModelAdmin):
 
 class CommentAdmin(admin.ModelAdmin):
     model = Comment
+
+admin.site.register(Commission, CommissionAdmin)
+admin.site.register(Comment, CommentAdmin)
