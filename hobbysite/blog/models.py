@@ -3,6 +3,7 @@
 """
 from django.db import models
 from django.urls import reverse
+from user_management.models import Profile
 
 class ArticleCategory(models.Model):
     """
@@ -25,11 +26,25 @@ class Article(models.Model):
     @brief Instantiates Article model.
     """
     title = models.CharField(max_length=255)
-    category = models.ForeignKey(ArticleCategory,
-                                 on_delete=models.SET_NULL,
-                                 null=True,
-                                 related_name="category")
+
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='authored_articles')
+
+    category = models.ForeignKey(
+        ArticleCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="category")
+    
     entry = models.TextField(blank=False)
+
+    header_image = models.ImageField(
+        upload_to='article_headers/',
+        null=True,)
+    
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
