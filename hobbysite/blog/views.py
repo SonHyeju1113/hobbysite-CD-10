@@ -4,8 +4,9 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import Article, ArticleCategory
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class ArticleListView(ListView):
+class ArticleListView(LoginRequiredMixin,ListView):
     """
     @brief List View class that uses the model ArticleCategory from models.py
     """
