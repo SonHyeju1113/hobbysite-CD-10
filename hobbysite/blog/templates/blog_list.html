@@ -1,6 +1,10 @@
 {% extends 'blog_base.html' %}
 {% block title %} Blog List {% endblock %}
 {% block content %}
+
+<a href="{% url 'article_create' %}" class="btn btn-primary">Create New Blog</a>
+<br><br>
+
 {% for category in object_list %}
     <h2>{{ category.name }}</h2>
     <p>{{ category.description }}</p>
