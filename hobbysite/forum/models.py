@@ -1,3 +1,4 @@
+from user_management.models import Profile
 from django.db import models
 from django.urls import reverse
 
@@ -11,9 +12,10 @@ class ThreadCategory(models.Model):
     class Meta:
         ordering = ['name']
 
-class Post(models.Model):
+class Thread(models.Model):
     title = models.CharField(max_length = 255)
-    category = models.ForeignKey(PostCategory, on_delete=models.SET_NULL, null = True, related_name = "category")
+    author = models.ForeignKey(Profile, on_delete = models.SET_NULL, null = True, related_name = "author")
+    category = models.ForeignKey(PostCategory, on_delete = models.SET_NULL, null = True, related_name = "category")
     entry = models.TextField(blank = False)
     created_on = models.DateTimeField(auto_now_add = True)
     updated_on = models.DateTimeField(auto_now = True)
@@ -26,3 +28,4 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_on']
+
