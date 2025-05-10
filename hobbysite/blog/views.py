@@ -28,3 +28,9 @@ class ArticleCreateView(CreateView):
     form_class = ArticleCreateForm
     template_name = 'blog_create.html'
     success_url = reverse_lazy('articles')
+
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+    model = Article
+    form_class = ArticleCreateForm
+    template_name = 'blog_update.html'
+    success_url = reverse_lazy('articles')
