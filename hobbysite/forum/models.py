@@ -14,7 +14,7 @@ class ThreadCategory(models.Model):
 
 class Thread(models.Model):
     title = models.CharField(max_length = 255)
-    author = models.ForeignKey(Profile, on_delete = models.SET_NULL, null = True, related_name = "author")
+    author = models.ForeignKey(Profile, on_delete = models.SET_NULL, null = True, related_name = "thread_author")
     category = models.ForeignKey(PostCategory, on_delete = models.SET_NULL, null = True, related_name = "category")
     entry = models.TextField(blank = False)
     created_on = models.DateTimeField(auto_now_add = True)
@@ -29,3 +29,11 @@ class Thread(models.Model):
     class Meta:
         ordering = ['-created_on']
 
+class Comment(Models.model):
+    author = models.ForeignKey(Profile, on_delete = models.SET_NULL, null = True, related_name = "comment_author")
+    thread = models.ForeignKey(Thread, on_delete = models.CASCADE, null = True, related_name = "comment_thread")
+    entry = models.TextField(blank = False)
+    created_on = models.DateTimeField(auto_now_add = True)
+    updated_on = models.DateTimeField(auto_now = True)
+    class Meta:
+        ordering = ['created_on']
