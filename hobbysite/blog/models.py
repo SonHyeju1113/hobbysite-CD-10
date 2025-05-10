@@ -63,3 +63,28 @@ class Article(models.Model):
         @brief To sort the model in descending order with respect to date created.
         """
         ordering = ['-created_on']
+
+class Comment(models.Model):
+
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='authored_comments'
+    )
+
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='article_comments')
+
+    entry = models.TextField(blank=False) 
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        """
+        @brief To sort the model in descending order with respect to date created.
+        """
+        ordering = ['-created_on']
