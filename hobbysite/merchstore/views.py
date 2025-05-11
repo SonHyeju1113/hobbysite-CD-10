@@ -63,3 +63,17 @@ def merchCreate(request):
 
     context = {"product_form": productform, "productType_form":productTypeform}
     return render(request,'merchstore_create.html', context)
+
+@login_required
+def merchUpdate(request, pk):
+    instance = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        updateform = ProductForm(request.POST, instance=instance)
+        if updateform.is_valid():
+            updateform.save()
+            return redirect('merchstore:merchstore_list')
+    else:
+             updateform = ProductForm(instance=instance)
+             
+    context = {"update_form": updateform}
+    return render(request, 'merchstore_update.html', context)
