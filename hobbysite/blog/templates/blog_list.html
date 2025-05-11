@@ -11,16 +11,12 @@ Welcome {% if user.is_authenticated %} {{user.profile.display_name}} {% endif %}
 <br>
 
 {% if user.is_authenticated %}
-<h2>Authorted Articles:</h2>
-{% for category in object_list %}
-    {% for article in category.category.all %}
-        {% if user.profile == article.author %}
-            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
-            <br>
-        {% endif %}
+    <h2>Authored Articles:</h2>
+    {% for article in my_articles %}
+        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
     {% endfor %}
-{% endfor %}
 {% endif %}
+
 <hr>
 
 <h1>All Articles</h1>
