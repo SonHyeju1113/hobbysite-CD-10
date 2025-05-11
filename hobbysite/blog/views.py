@@ -28,6 +28,10 @@ class ArticleCreateView(CreateView):
     form_class = ArticleCreateForm
     template_name = 'blog_create.html'
     success_url = reverse_lazy('articles')
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user.profile
+        return super().form_valid(form)
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
