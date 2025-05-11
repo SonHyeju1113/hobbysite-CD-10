@@ -26,3 +26,8 @@ class UserRegisterForm(UserCreationForm):
                 email=self.cleaned_data['email']
             )
         return user
+
+class UserEditProfile(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['display_name', 'email']
