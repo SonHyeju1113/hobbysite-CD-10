@@ -2,11 +2,15 @@
 {% block title %} Blog List {% endblock %}
 {% block content %}
 
+{% if user.is_authenticated %}
 <a href="{% url 'article_create' %}" class="btn btn-primary">Create New Blog</a>
 <br><br>
-Welcome {{user.profile.display_name}}
+{% endif %}
+
+Welcome {% if user.is_authenticated %} {{user.profile.display_name}} {% endif %}
 <br>
 
+{% if user.is_authenticated %}
 <h2>Authorted Articles:</h2>
 {% for category in object_list %}
     {% for article in category.category.all %}
@@ -16,6 +20,7 @@ Welcome {{user.profile.display_name}}
         {% endif %}
     {% endfor %}
 {% endfor %}
+{% endif %}
 <hr>
 
 <h1>All Articles</h1>
@@ -33,4 +38,15 @@ Welcome {{user.profile.display_name}}
         {% endfor %}
     <hr>
 {% endfor %}
+
+{% if user.is_authenticated %}
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+{% else %}
+    <a href="{% url 'login' %}">Login</a>
+{% endif %}
+
+
 {% endblock %}
