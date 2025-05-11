@@ -26,7 +26,11 @@ def article_detail_view(request, pk):
     @brief View to display an article and handle comment submission.
     """
     article = get_object_or_404(Article, pk=pk)
-    other_articles = Article.objects.filter(author=article.author).exclude(pk=article.pk)
+    if Article.objects.filter(author=article.author
+                              ).exclude(pk=article.pk).count() > 1:
+        other_articles = Article.objects.filter(author=article.author).exclude(pk=article.pk)
+    else:
+        other_articles = None
 
     if request.method == 'POST':
         form = ArticleCommentForm(request.POST)
