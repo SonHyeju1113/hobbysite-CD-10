@@ -1,6 +1,11 @@
-{% extends 'blog_base.html' %}
+{% extends 'base.html' %}
 {% block title %} Blog {% endblock %}
 {% block content %}
+    Header:
+    {% if article.header_image %}
+    <img src="{{ article.header_image.url }}" alt="Article Image">
+    {% endif %}
+
     <h2 style="text-align:center;">{{article.title}}</h2>
     <hr>
     <div class="entry-box">
@@ -9,4 +14,24 @@
     <hr>
     <p style="font-size:70%;">Created on: {{ article.created_on }}</p>
     <p style="font-size:70%;">Last Updated: {{ article.updated_on }}</p>
+
+    <hr>
+    Comments:
+    <hr>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Comment</button>
+      </form>
+    <hr>
+
+    {% for comment in article.article_comments.all %}
+        <div>
+            <strong>{{ comment.author.display_name }}</strong>
+            <p>{{ comment.entry }}</p>
+            <small>{{ comment.created_on }}</small>
+        </div>
+        <hr>
+    {% endfor %}
+    <hr>
 {% endblock %}
