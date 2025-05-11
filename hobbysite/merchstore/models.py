@@ -5,7 +5,7 @@ class ProductType(models.Model):
     """
     Instantiates Product Model and return name. 
     """
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=False)
 
     def __str__(self):
@@ -17,7 +17,9 @@ class ProductType(models.Model):
         Verbose name to set admin panel name to Product Types.
         """
         ordering = ['name']
-        verbose_name_plural = "Product Types"
+        verbose_name = 'Product Type'
+        verbose_name_plural = 'Product Types'
+        
 
 class Product(models.Model):
     """
