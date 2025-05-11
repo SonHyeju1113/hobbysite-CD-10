@@ -21,12 +21,13 @@
         <pre style="font-size:150%">{{article.entry}}</pre>
     </div>
     <hr>
+    Created by: {{ article.author.display_name }}
     <p style="font-size:70%;">Created on: {{ article.created_on }}</p>
     <p style="font-size:70%;">Last Updated: {{ article.updated_on }}</p>
 
     {% if other_articles %}
         <hr>
-        <h3>Other Articles by {{ article.author.display_name }}</h3>
+        <h3>See More Articles by {{ article.author.display_name }}</h3>
         <ul>
             {% for other_article in other_articles %}
                 <li><a href="{{ other_article.get_absolute_url }}">{{ other_article.title }}</a></li>
