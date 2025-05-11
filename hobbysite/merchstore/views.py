@@ -1,24 +1,17 @@
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from .models import Product, ProductType
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, Transaction
+from django.contrib.auth.decorators import login_required
 
-class ProductListView(ListView):
-    """
-    List View class that uses the model Product from models.py
-    """
-    model = Product
-    template_name = 'product_list.html'
-    context_object_name = 'product_types' 
 
-    def get_queryset(self):
-        """
-        To avoid displaying repetiting product types in the list view.
-        """
-        return ProductType.objects.prefetch_related('product_type')  
+def merchList(request):
+    user_profile = getattr(request.user, "profile", None)
+    
+    if request.user.is_authenticated:
+         user_products = Product.objects.filter(owner=user_profile)
+         other_products = Product.objects.exclude(owner=user_profile)
 
-class ProductDetailView(DetailView):
-    """
-    Detailed View class that uses the model Product from models.py
-    """
-    model = Product
-    template_name = 'product_entry.html'
+    else:
+         user_products = None
+         other_products = Product.objects.all()
+    context = {"user_products": user_products, "other_products":other_products}
+    return render(request, "merch_list.html", context)
