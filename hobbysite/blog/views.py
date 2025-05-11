@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from .models import Article, ArticleCategory
 from .forms import ArticleCreateForm, ArticleCommentForm
 
-class ArticleListView(LoginRequiredMixin,ListView):
+class ArticleListView(ListView):
     """
     @brief List View class that uses the model ArticleCategory from models.py
     """
