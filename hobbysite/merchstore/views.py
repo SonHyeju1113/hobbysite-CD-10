@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Transaction
+from .forms import ProductForm, ProductTypeForm, TransactionForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -15,3 +16,32 @@ def merchList(request):
          other_products = Product.objects.all()
     context = {"user_products": user_products, "other_products":other_products}
     return render(request, "merch_list.html", context)
+
+@login_required
+def merchDetail(request, pk):
+    merch = get_object_or_404(Product, pk=pk)
+
+    if merch.owner == request.user.profile:
+        can_purchase = False
+    else:
+        can_purchase = True
+
+    if request.method == 'POST':
+        transactForm = TransactionForm(request.POST)
+        if transactForm.is_valid():
+            transaction = transactForm.save(commit=False)
+            transaction.product = merch
+            transaction.buyer = request.user.profile
+            transaction.status = 'on_cart'
+
+            merch.stock -= transaction.amount
+            if merch.stock == 0:
+                 merch.status = 'out_of_stock'
+                 can_purchase = False
+            merch.save()
+            transaction.save()
+        return redirect('merchstore:merch_cart')
+    else:
+            transactForm = TransactionForm(request.POST)
+    context = {"merch": merch , "transact_form" : transactForm, "can_purchase":can_purchase}
+    return render(request, "merch_detail.html", context)
