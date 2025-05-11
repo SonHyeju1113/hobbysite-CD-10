@@ -1,11 +1,11 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from .models import Post, PostCategory
+from .models import Thread, ThreadCategory
 
-class PostListView(ListView):
-    model = PostCategory
-    template_name = 'forum_list.html'
+class ThreadListView(ListView):
+    model = ThreadCategory
+    template_name = 'thread_list.html'
 
-class PostDetailView(DetailView):
-    model = Post
-    template_name = 'forum_entry.html'
+class ThreadDetailView(DetailView):
+    model = Thread
+    template_name = 'thread_detail.html'
