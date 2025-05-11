@@ -1,83 +1,85 @@
 """
-@brief Class-Based Views for Blog app.
+@brief Views for Blog app.
 """
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render,  get_object_or_404, redirect
 from django.http import Http404
 from django.urls import reverse_lazy
 from .models import Article, ArticleCategory
 from .forms import ArticleCreateForm, ArticleCommentForm
 
-class ArticleListView(ListView):
+def article_list_view(request):
     """
-    @brief List View class that uses the model ArticleCategory from models.py
+    @brief View that lists ArticleCategory and adds user-specific articles if authenticated.
     """
-    model = ArticleCategory
-    template_name = 'blog_list.html'
+    categories = ArticleCategory.objects.all()
+    context = {'object_list': categories}
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            user_profile = self.request.user.profile
-            context['my_articles'] = Article.objects.filter(author=user_profile)
-        return context
+    if request.user.is_authenticated:
+        user_profile = request.user.profile
+        context['my_articles'] = Article.objects.filter(author=user_profile)
 
-class ArticleDetailView(DetailView):
+    return render(request, 'blog_list.html', context)
+
+def article_detail_view(request, pk):
     """
-    @brief Detail View clas that uses the model Article from models.py
+    @brief View to display an article and handle comment submission.
     """
-    model = Article
-    template_name = 'blog_article.html'
-    context_object_name = "article"
+    article = get_object_or_404(Article, pk=pk)
+    other_articles = Article.objects.filter(author=article.author).exclude(pk=article.pk)
 
-    def get_success_url(self):
-        return self.request.path
-
-    def get_context_data(self, **kwargs):
-        current_article = self.get_object()
-        context = super().get_context_data(**kwargs)
-        context['form'] = ArticleCommentForm()
-        context['other_articles'] = Article.objects.filter(
-            author=current_article.author).exclude(pk=current_article.pk)
-        return context
-    
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
+    if request.method == 'POST':
         form = ArticleCommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.article = self.object
+            comment.article = article
             comment.author = request.user.profile
             comment.save()
-            return self.get(request, *args, **kwargs)
-        else:
-            self.object_list = self.get_queryset(**kwargs)
-            context = self.get_context_data(**kwargs)
-            context['form'] = form
-            return self.render_to_response(context)
+            form = ArticleCommentForm()
+    else:
+        form = ArticleCommentForm()
 
-class ArticleCreateView(LoginRequiredMixin, CreateView):
-    model = Article
-    form_class = ArticleCreateForm
-    template_name = 'blog_create.html'
-    success_url = reverse_lazy('articles')
-    
-    def form_valid(self, form):
-        form.instance.author = self.request.user.profile
-        return super().form_valid(form)
+    context = {
+        'article': article,
+        'form': form,
+        'other_articles': other_articles,
+    }
 
-class ArticleUpdateView(LoginRequiredMixin, UpdateView):
-    model = Article
-    form_class = ArticleCreateForm
-    template_name = 'blog_update.html'
-    success_url = reverse_lazy('articles')
+    return render(request, 'blog_article.html', context)
 
-    def get_object(self, queryset=None):
-        article = super().get_object(queryset)
-        # Check if the logged-in user is the owner of the article
-        if article.author != self.request.user.profile:
-            raise Http404("You are not authorized to edit this article.") 
-        return article
+@login_required
+def article_create_view(request):
+    """
+    @brief View to handle article creation.
+    """
+    if request.method == 'POST':
+        form = ArticleCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user.profile
+            article.save()
+            return redirect(reverse_lazy('articles'))
+    else:
+        form = ArticleCreateForm()
+
+    return render(request, 'blog_create.html', {'form': form})
+
+@login_required
+def article_update_view(request, pk):
+    """
+    @brief View to update an article. Only the author can edit.
+    """
+    article = get_object_or_404(Article, pk=pk)
+
+    if article.author != request.user.profile:
+        raise Http404("You are not authorized to edit this article.")
+
+    if request.method == 'POST':
+        form = ArticleCreateForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse_lazy('articles'))
+    else:
+        form = ArticleCreateForm(instance=article)
+
+    return render(request, 'blog_update.html', {'form': form, 'article': article})
