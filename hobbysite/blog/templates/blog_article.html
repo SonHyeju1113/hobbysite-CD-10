@@ -3,6 +3,14 @@
 {% block content %}
     <a href="{% url 'articles' %}" class="btn btn-primary">Go back to articles</a>
     <br>
+
+    {% if user.is_authenticated %}
+    {% if user.profile == article.author %}
+    <a href="{% url 'article_update' article.pk  %}" class="btn btn-primary">Update Blog</a>
+    {% endif %}
+    {% endif %}
+
+
     {% if article.header_image %}
     <img src="{{ article.header_image.url }}" alt="Article Image">
     {% endif %}
