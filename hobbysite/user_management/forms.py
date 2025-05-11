@@ -13,7 +13,7 @@ class UserRegisterForm(UserCreationForm):
         fields = ['display_name', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
+        user = super().save(commit=False)
         user.username = self.cleaned_data['display_name']
         user.email = self.cleaned_data['email']
         if commit:
