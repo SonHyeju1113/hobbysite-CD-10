@@ -1,9 +1,10 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from .models import Thread, ThreadCategory
-from .forms import ThreadCreateForm, ThreadUpdateForm
+from .models import Thread, ThreadCategory, Comment
+from .forms import ThreadCreateForm, ThreadUpdateForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
+from django.urls import reverse
 
 class ThreadListView(ListView):
     model = ThreadCategory
@@ -25,13 +26,31 @@ class ThreadListView(ListView):
 class ThreadDetailView(DetailView):
     model = Thread
     template_name = 'thread_detail.html'
+    form_class = Commentform
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         current_thread = self.object
         context['other_threads'] = Thread.objects.filter(
             category = current_thread.category).exclude(pk = current_thread.pk)[:2]
+        context['form'] = self.get_form()
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        
+        if form.is_valid():
+            comment = form.save(commit = False)
+            comment.thread = self.object
+            comment.author = self.user.profile
+            comment.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+    
+    def get_success_url(self):
+        return reverse('thread_detail', kwargs = {'pk:' self.object.pk})
 
 class ThreadCreateView(LoginRequiredMixin, CreateView):
     model = Thread
