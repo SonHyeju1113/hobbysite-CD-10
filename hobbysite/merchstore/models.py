@@ -43,3 +43,17 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class Transaction(models.Model):
+    buyer = models.ForeignKey('user_management.Profile', null=True, on_delete=models.SET_NULL)
+    product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
+    amount = models.IntegerField()
+    STATUS_CHOICES = (
+        ('on_cart', 'On Cart'),
+        ('to_pay', 'To Pay'),
+        ('to_ship', 'To Ship'),
+        ('to_receive', 'To Recieve'),
+        ('Delivered', 'Delivered'),
+    )
+    status = models.CharField(max_length=20, choices = STATUS_CHOICES)
+    createdOn = models.DateTimeField(auto_now_add=True)
