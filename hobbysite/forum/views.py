@@ -1,9 +1,10 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormMixin
 from .models import Thread, ThreadCategory, Comment
 from .forms import ThreadCreateForm, ThreadUpdateForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse
 
 class ThreadListView(ListView):
@@ -23,10 +24,10 @@ class ThreadListView(ListView):
 
         return context
 
-class ThreadDetailView(DetailView):
+class ThreadDetailView(FormMixin, DetailView):
     model = Thread
     template_name = 'thread_detail.html'
-    form_class = Commentform
+    form_class = CommentForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -43,14 +44,14 @@ class ThreadDetailView(DetailView):
         if form.is_valid():
             comment = form.save(commit = False)
             comment.thread = self.object
-            comment.author = self.user.profile
+            comment.author = self.request.user.profile
             comment.save()
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
     
     def get_success_url(self):
-        return reverse('thread_detail', kwargs = {'pk:' self.object.pk})
+        return reverse('forum:thread_detail', args = [self.object.pk])
 
 class ThreadCreateView(LoginRequiredMixin, CreateView):
     model = Thread
@@ -62,11 +63,10 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user.profile
         return super().form_valid(form)
 
-class ThreadUpdateView(LoginRequiredMixin, CreateView):
+class ThreadUpdateView(LoginRequiredMixin, UpdateView):
     model = Thread
-    form_class = ThreadCreateForm
+    form_class = ThreadUpdateForm
     template_name = 'thread_update.html'
-    redirect_field_name = 'profile/'
 
-    def get_queryset(self):
-        return Thread.objects.filter(author = self.request.user)
+    def get_success_url(self):
+        return reverse('forum:thread_detail', args = [self.object.pk])

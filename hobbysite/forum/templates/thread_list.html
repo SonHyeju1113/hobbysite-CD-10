@@ -13,6 +13,7 @@
         <h3>Topic: {{ category.name }}</h3>
             {% for thread in other_threads %}
             <a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
+            <p></p>
             {% endfor %}
     {% endfor %}
     <hr>
