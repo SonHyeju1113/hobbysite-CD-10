@@ -77,3 +77,9 @@ def merchUpdate(request, pk):
              
     context = {"update_form": updateform}
     return render(request, 'merchstore_update.html', context)
+
+@login_required
+def merchCart(request):
+    transaction = Transaction.objects.filter(buyer=request.user.profile, status='on_cart').select_related('product')
+    context = {"transactions": transaction}
+    return render(request, "merchstore_cart.html", context)
