@@ -11,10 +11,12 @@ Welcome {% if user.is_authenticated %} {{user.profile.display_name}} {% endif %}
 <br>
 
 {% if user.is_authenticated %}
-    <h2>Authored Articles:</h2>
-    {% for article in my_articles %}
-        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
-    {% endfor %}
+    {% if my_articles %}
+        <h2>Authored Articles:</h2>
+        {% for article in my_articles %}
+            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+        {% endfor %}
+    {% endif %}
 {% endif %}
 
 <hr>
