@@ -16,6 +16,13 @@ class ArticleListView(ListView):
     model = ArticleCategory
     template_name = 'blog_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            user_profile = self.request.user.profile
+            context['my_articles'] = Article.objects.filter(author=user_profile)
+        return context
+
 class ArticleDetailView(DetailView):
     """
     @brief Detail View clas that uses the model Article from models.py
@@ -28,9 +35,13 @@ class ArticleDetailView(DetailView):
         return self.request.path
 
     def get_context_data(self, **kwargs):
+        current_article = self.get_object()
         context = super().get_context_data(**kwargs)
         context['form'] = ArticleCommentForm()
+        context['other_articles'] = Article.objects.filter(
+            author=current_article.author).exclude(pk=current_article.pk)
         return context
+    
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -47,7 +58,7 @@ class ArticleDetailView(DetailView):
             context['form'] = form
             return self.render_to_response(context)
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleCreateForm
     template_name = 'blog_create.html'
