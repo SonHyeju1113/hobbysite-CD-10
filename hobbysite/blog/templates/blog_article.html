@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block title %} Blog {% endblock %}
 {% block content %}
-    Header:
+    <a href="{% url 'articles' %}" class="btn btn-primary">Go back to articles</a>
+    <br>
     {% if article.header_image %}
     <img src="{{ article.header_image.url }}" alt="Article Image">
     {% endif %}
