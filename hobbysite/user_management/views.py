@@ -1,23 +1,26 @@
-from django.views import View
-from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from .forms import UserRegisterForm
 
-class RegisterView(View):
-    def get(self, request):
-        form = UserRegisterForm()
-        return render(request, 'register.html', {'form': form})
-
-    def post(self, request):
+def register_view(request):
+    """
+    @brief Function-Based View for user registration.
+    """
+    if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('profile')
-        return render(request, 'register.html', {'form': form})
+    else:
+        form = UserRegisterForm()
+    return render(request, 'register.html', {'form': form})
 
-class ProfileView(LoginRequiredMixin, TemplateView):
-    template_name = 'profile.html'
+@login_required
+def profile_view(request):
+    """
+    @brief Function-Based View for displaying the user's profile.
+    """
+    return render(request, 'profile.html')
