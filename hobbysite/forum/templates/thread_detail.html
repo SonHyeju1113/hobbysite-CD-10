@@ -3,6 +3,11 @@
 {% block content %}
     <h2>{{object.title}}</h2>
     <p>{{object.entry}}</p>
-    <p>- <bold>Created on: </bold> {{ post.created_on }}</p>
-    <p>- <bold>Last Updated: </bold> {{ post.updated_on }}</p>
+    <p><bold>Created on: </bold> {{ post.created_on }}</p>
+    <p><bold>Last Updated: </bold> {{ post.updated_on }}</p>
+    {% for other in other_threads %}
+        <a href = "{{ other.get_absolute_url }}">{{ other.title }}</a>
+    {% endfor %}
+    <hr>
+    <a href = '{% url "forum:thread_list" %}'>List of all threads</a>
 {% endblock %}

@@ -22,11 +22,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('forum.urls')),
-    path('', include('merchstore.urls')),
-    path('', include('commissions.urls')),
-    path('', include('blog.urls')),
-    path('', include('wiki.urls')),
+    path('forum/', include('forum.urls')),
+    path('merchstore/', include('merchstore.urls')),
+    path('commissions/', include('commissions.urls')),
+    path('blog/', include('blog.urls')),
+    path('wiki/', include('wiki.urls')),
     path('', include('user_management.urls')),
 ]
 
