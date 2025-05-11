@@ -15,27 +15,34 @@ Welcome {% if user.is_authenticated %} {{user.profile.display_name}} {% endif %}
         <h2>Authored Articles:</h2>
         {% for article in my_articles %}
             <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+            <br>
         {% endfor %}
     {% endif %}
 {% endif %}
 
 <hr>
 
-<h1>All Articles</h1>
-
-{% for category in object_list %}
-    <h2>{{ category.name }}</h2>
-    <p>{{ category.description }}</p>
-        {% for article in category.category.all %}
-            {% if user.profile != article.author %}
-            <tr>
-                <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
-                <br>
-            </tr>
+{% if object_list %}
+    <h1>All Articles</h1>
+        {% for category in object_list %}
+            {% if category %}
+            <h2>{{ category.name }}</h2>
+            <p>{{ category.description }}</p>
+                {% for article in category.category.all %}
+                    {% if user.is_authenticated %}
+                        {% if article not in my_articles %}
+                            <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+                            <br>
+                        {% endif %}
+                    {% else %}
+                            <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+                            <br>
+                    {% endif %}
+                {% endfor %}
+                <hr>
             {% endif %}
         {% endfor %}
-    <hr>
-{% endfor %}
+{% endif %}
 
 {% if user.is_authenticated %}
 <form action="{% url 'logout' %}" method="post">
