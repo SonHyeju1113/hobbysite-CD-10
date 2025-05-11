@@ -2,15 +2,16 @@
 {% block title %} Forum List {% endblock %}
 {% block content %}
 <h2>Forum Site</h2>
+    <h3>My Threads</h3>
+    {% for thread in my_threads %}
+        <a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
+    {% endfor %}
+
+    <h3>All Threads</h3>
     {% for category in object_list %}
-    <h2>Topic: {{ category.name }}</h2>
-    <p>Description: {{ category.description }}</p>
-        {% for post in category.category.all %}
-        <p>articles: </p>
-        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-        <p>- <bold>Created on: </bold> {{ post.created_on }}</p>
-        <p>- <bold>Last Updated: </bold> {{ post.updated_on }}</p>
+        <h3>Topic: {{ category.name }}</h3>
+            {% for thread in other_threads %}
+            <a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
     {% endfor %}
     <hr>
-    {% endfor %}
 {% endblock %}
