@@ -15,7 +15,7 @@ def merchList(request):
          user_products = None
          other_products = Product.objects.all()
     context = {"user_products": user_products, "other_products":other_products}
-    return render(request, "merch_list.html", context)
+    return render(request, "merchstore_list.html", context)
 
 @login_required
 def merchDetail(request, pk):
@@ -40,8 +40,26 @@ def merchDetail(request, pk):
                  can_purchase = False
             merch.save()
             transaction.save()
-        return redirect('merchstore:merch_cart')
+        return redirect('merchstore:merchstore_cart')
     else:
             transactForm = TransactionForm(request.POST)
     context = {"merch": merch , "transact_form" : transactForm, "can_purchase":can_purchase}
-    return render(request, "merch_detail.html", context)
+    return render(request, "merchstore_detail.html", context)
+
+@login_required
+def merchCreate(request):
+    if request.method == 'POST':
+        productform = ProductForm(request.POST, request.FILES)
+        productTypeform = ProductTypeForm(request.POST)
+        if productform.is_valid():
+            product = productform.save(commit=False)
+            product.owner = request.user.profile
+            productform.save()
+        elif productTypeform.is_valid():
+            productTypeform.save()
+    else:
+        productform = ProductForm(request.POST, request.FILES)
+        productTypeform = ProductTypeForm(request.POST)
+
+    context = {"product_form": productform, "productType_form":productTypeform}
+    return render(request,'merchstore_create.html', context)
