@@ -6,3 +6,8 @@ class ThreadCreateForm(forms.ModelForm):
     class Meta:
         model = Thread
         fields = ['title', 'category', 'entry']
+
+class ThreadUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Thread
+        fields = ['title', 'category', 'entry']
