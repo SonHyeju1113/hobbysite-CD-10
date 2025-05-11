@@ -15,7 +15,7 @@ class ThreadCategory(models.Model):
 class Thread(models.Model):
     title = models.CharField(max_length = 255)
     author = models.ForeignKey(Profile, on_delete = models.SET_NULL, null = True, related_name = "thread_author")
-    category = models.ForeignKey(PostCategory, on_delete = models.SET_NULL, null = True, related_name = "category")
+    category = models.ForeignKey(ThreadCategory, on_delete = models.SET_NULL, null = True, related_name = "category")
     entry = models.TextField(blank = False)
     created_on = models.DateTimeField(auto_now_add = True)
     updated_on = models.DateTimeField(auto_now = True)

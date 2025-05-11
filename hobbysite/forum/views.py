@@ -1,6 +1,7 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import Thread, ThreadCategory
+from .forms import ThreadCreateForm
 
 class ThreadListView(ListView):
     model = ThreadCategory
@@ -22,3 +23,14 @@ class ThreadListView(ListView):
 class ThreadDetailView(DetailView):
     model = Thread
     template_name = 'thread_detail.html'
+
+class ThreadCreateView(LoginRequiredMixin, CreateView):
+    model = Thread
+    form_class = ThreadCreateForm
+    template_name = 'thread_create.html'
+    redirect_field_name = 'profile/'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+

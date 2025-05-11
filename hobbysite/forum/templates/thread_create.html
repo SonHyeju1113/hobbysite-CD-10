@@ -1,0 +1,9 @@
+{% extends base.html %}
+<h1>Create a new thread!</h1>
+<form method = "post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>Author: {{ request.user.username }}</p>
+    <button type="submit">Post Thread</button>
+</form>
+{% endblock %}
