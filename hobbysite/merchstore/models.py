@@ -27,10 +27,10 @@ class Product(models.Model):
     """
     name = models.CharField(max_length=255)
     product_type = models.ForeignKey(ProductType,null=True ,on_delete=models.SET_NULL, related_name='products')
-    owner = models.ForeignKey('user_management.Profile',on_delete=models.CASCADE)
+    owner = models.ForeignKey('user_management.Profile',on_delete=models.CASCADE, null = True, default=None)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.IntegerField()
+    stock = models.IntegerField(null=True, default=None)
     STATUS_CHOICES = (
         ('available', 'Available'),
         ('on_sale', 'On Sale'),

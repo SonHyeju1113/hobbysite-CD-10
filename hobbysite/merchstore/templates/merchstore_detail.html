@@ -16,7 +16,7 @@
             <li>Stock: {{merch.stock}}</li>
             <li>Status: {{merch.status}}</li>
             {% if can_purchase == False %}
-             <a href="{% url 'merchstore:merch_update' merch.pk %}"> Update</a>
+             <a href="{% url 'merchstore:merchstore_update' merch.pk %}"> Update</a>
             {% endif %}
             <br> 
 

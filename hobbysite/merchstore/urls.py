@@ -3,12 +3,12 @@ from .views import merchList, merchDetail, merchCreate, merchUpdate, merchCart, 
 
 
 urlpatterns = [
-    path('items/', merchList, name='merch_list'),
-    path('item/<int:pk>/', merchDetail, name='merch_detail'),
-    path('item/add', merchCreate, name='merch_create'),
-    path('item/<int:pk>/edit', merchUpdate, name = 'merch_update'),
-    path('cart/', merchCart, name='merch_cart'),
-    path('transactions/', merchTransactions, name ='merch_transactions'),
+    path('items/', merchList, name='merchstore_list'),
+    path('item/<int:pk>/', merchDetail, name='merchstore_detail'),
+    path('item/add', merchCreate, name='merchstore_create'),
+    path('item/<int:pk>/edit', merchUpdate, name = 'merchstore_update'),
+    path('cart/', merchCart, name='merchstore_cart'),
+    path('transactions/', merchTransactions, name ='merchstore_transactions'),
 ]
 
 app_name = "merchstore"

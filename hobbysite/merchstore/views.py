@@ -88,4 +88,4 @@ def merchCart(request):
 def merchTransactions(request):
     transaction = Transaction.objects.filter(product__owner=request.user.profile).select_related('buyer', 'product').order_by('buyer')
     context = {'transactions': transaction}
-    return render(request, 'merch_transaction.html', context)
+    return render(request, 'merchstore_transaction.html', context)
