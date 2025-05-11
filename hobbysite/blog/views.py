@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from .models import Article, ArticleCategory
-from .forms import ArticleCreateForm
+from .forms import ArticleCreateForm, ArticleCommentForm
 
 class ArticleListView(LoginRequiredMixin,ListView):
     """
@@ -22,6 +22,30 @@ class ArticleDetailView(DetailView):
     """
     model = Article
     template_name = 'blog_article.html'
+    context_object_name = "article"
+
+    def get_success_url(self):
+        return self.request.path
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ArticleCommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = ArticleCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.article = self.object
+            comment.author = request.user.profile
+            comment.save()
+            return self.get(request, *args, **kwargs)
+        else:
+            self.object_list = self.get_queryset(**kwargs)
+            context = self.get_context_data(**kwargs)
+            context['form'] = form
+            return self.render_to_response(context)
 
 class ArticleCreateView(CreateView):
     model = Article
