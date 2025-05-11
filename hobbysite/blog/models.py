@@ -65,7 +65,9 @@ class Article(models.Model):
         ordering = ['-created_on']
 
 class Comment(models.Model):
-
+    """
+    @brief Instantiates Comment model.
+    """
     author = models.ForeignKey(
         Profile,
         on_delete=models.SET_NULL,
