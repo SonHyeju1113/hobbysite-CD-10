@@ -32,23 +32,28 @@
                 <li><a href="{{ other_article.get_absolute_url }}">{{ other_article.title }}</a></li>
             {% endfor %}
     {% endif %}
+
+    {% if user.is_authenticated %}
     <hr>
-    Comments:
-    <hr>
+    Write a Comment:
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Comment</button>
       </form>
-    <hr>
-
-    {% for comment in article.article_comments.all %}
-        <div>
-            <strong>{{ comment.author.display_name }}</strong>
-            <p>{{ comment.entry }}</p>
-            <small>{{ comment.created_on }}</small>
-        </div>
+    {% endif %}
+    
+    {% if article.article_comments.all %}
         <hr>
-    {% endfor %}
+        Comments:
+        {% for comment in article.article_comments.all %}
+            <div>
+                <strong>{{ comment.author.display_name }}</strong>
+                <p>{{ comment.entry }}</p>
+                <small>{{ comment.created_on }}</small>
+            </div>
+            <hr>
+        {% endfor %}
+    {% endif %}
     <hr>
 {% endblock %}
