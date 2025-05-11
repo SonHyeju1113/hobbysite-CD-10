@@ -1,12 +1,12 @@
 """
-@brief Url paths for Blog app.
+@brief Url paths for Blog app using Function-Based Views.
 """
 from django.urls import path
-from .views import ArticleListView, ArticleDetailView, ArticleCreateView, ArticleUpdateView
+from .views import article_list_view, article_detail_view, article_create_view, article_update_view
 
 urlpatterns = [
-    path('blog/articles/', ArticleListView.as_view(), name='articles'),
-    path('blog/article/<int:pk>/', ArticleDetailView.as_view(), name='article_detail'),
-    path('blog/create/', ArticleCreateView.as_view(), name='article_create'),
-    path('blog/update/<int:pk>/', ArticleUpdateView.as_view(), name='article_update'),
+    path('blog/articles/', article_list_view, name='articles'),
+    path('blog/article/<int:pk>/', article_detail_view, name='article_detail'),
+    path('blog/create/', article_create_view, name='article_create'),
+    path('blog/update/<int:pk>/', article_update_view, name='article_update'),
 ]
