@@ -5,14 +5,14 @@
     <br>
 
     {% if user.is_authenticated %}
-    {% if user.profile == article.author %}
-    <a href="{% url 'article_update' article.pk  %}" class="btn btn-primary">Update Blog</a>
-    {% endif %}
+        {% if user.profile == article.author %}
+        <a href="{% url 'article_update' article.pk  %}" class="btn btn-primary">Update Blog</a>
+        {% endif %}
     {% endif %}
 
 
     {% if article.header_image %}
-    <img src="{{ article.header_image.url }}" alt="Article Image">
+        <img src="{{ article.header_image.url }}" alt="Article Image">
     {% endif %}
 
     <h2 style="text-align:center;">{{article.title}}</h2>
@@ -24,6 +24,14 @@
     <p style="font-size:70%;">Created on: {{ article.created_on }}</p>
     <p style="font-size:70%;">Last Updated: {{ article.updated_on }}</p>
 
+    {% if other_articles %}
+        <hr>
+        <h3>Other Articles by {{ article.author.display_name }}</h3>
+        <ul>
+            {% for other_article in other_articles %}
+                <li><a href="{{ other_article.get_absolute_url }}">{{ other_article.title }}</a></li>
+            {% endfor %}
+    {% endif %}
     <hr>
     Comments:
     <hr>
