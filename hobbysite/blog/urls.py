@@ -5,8 +5,8 @@ from django.urls import path
 from .views import article_list_view, article_detail_view, article_create_view, article_update_view
 
 urlpatterns = [
-    path('blog/articles/', article_list_view, name='articles'),
-    path('blog/article/<int:pk>/', article_detail_view, name='article_detail'),
-    path('blog/create/', article_create_view, name='article_create'),
-    path('blog/update/<int:pk>/', article_update_view, name='article_update'),
+    path('articles/', article_list_view, name='articles'),
+    path('article/<int:pk>/', article_detail_view, name='article_detail'),
+    path('create/', article_create_view, name='article_create'),
+    path('update/<int:pk>/', article_update_view, name='article_update'),
 ]
