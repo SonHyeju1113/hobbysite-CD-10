@@ -9,8 +9,7 @@
         <a href="{% url 'article_update' article.pk  %}" class="btn btn-primary">Update Blog</a>
         {% endif %}
     {% endif %}
-
-
+    <br>
     {% if article.header_image %}
         <img src="{{ article.header_image.url }}" alt="Article Image">
     {% endif %}
@@ -26,35 +25,33 @@
     <p style="font-size:70%;">Last Updated: {{ article.updated_on }}</p>
 
     {% if other_articles %}
-        <hr>
-        <h3>See More Articles by {{ article.author.display_name }}</h3>
-        <ul>
+        <strong>More Articles by {{ article.author.display_name }}</strong>
             {% for other_article in other_articles %}
                 <li><a href="{{ other_article.get_absolute_url }}">{{ other_article.title }}</a></li>
             {% endfor %}
     {% endif %}
-
-    {% if user.is_authenticated %}
     <hr>
-    Write a Comment:
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Comment</button>
-      </form>
+    {% if user.is_authenticated %}
+        Write a Comment:
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Comment</button>
+        </form>
+    {% else %}
+    You must be logged in to comment.
     {% endif %}
     
     {% if article.article_comments.all %}
         <hr>
-        Comments:
+        <h2>💬 Comments: 💬</h2>
         {% for comment in article.article_comments.all %}
             <div>
-                <strong>{{ comment.author.display_name }}</strong>
-                <p>{{ comment.entry }}</p>
+                <strong>{{ comment.author.display_name }}:</strong> {{ comment.entry }}
+                <br>
                 <small>{{ comment.created_on }}</small>
+                <br><br>
             </div>
-            <hr>
         {% endfor %}
     {% endif %}
-    <hr>
 {% endblock %}
