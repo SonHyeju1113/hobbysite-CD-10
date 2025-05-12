@@ -62,3 +62,11 @@ class ArticleCreate(CreateView):
 class ArticleUpdate(UpdateView):
     model = Article
     template_name = 'wiki_update.html'
+    fields = ['title', 'category', 'entry', 'header_image']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('article_detail', kwargs={'pk':self.get_object.pk})
