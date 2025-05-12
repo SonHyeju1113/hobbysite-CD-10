@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from .models import Article, Comment
 from .forms import CommentForm
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ArticleList(ListView):
     model = Article
@@ -44,7 +45,7 @@ class ArticleDetail(DetailView):
 
         return context
 
-class ArticleCreate(CreateView):
+class ArticleCreate(LoginRequiredMixin, CreateView):
     model = Article
     template_name = 'wiki_create.html'
     fields = ['title', 'category', 'entry', 'header_image']
@@ -59,7 +60,7 @@ class ArticleCreate(CreateView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs)
 
-class ArticleUpdate(UpdateView):
+class ArticleUpdate(LoginRequiredMixin, UpdateView):
     model = Article
     template_name = 'wiki_update.html'
     fields = ['title', 'category', 'entry', 'header_image']
