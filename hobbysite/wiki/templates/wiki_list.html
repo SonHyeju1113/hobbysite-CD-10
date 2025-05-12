@@ -9,7 +9,7 @@
         </ul>
     {% endif %}
     {% for category in object_list %}
-        <p> {{category.name}} </p>
+        <p> {{ category.name }} </p>
         {% if article.author != user %}
             <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
         {% endif %}

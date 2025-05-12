@@ -1,8 +1,44 @@
 {% extends 'base.html' %}
 
-{% block title %} Wiki {% endblock %}
-
 {% block content %}
-    {{ object.title }}
-    <p> {{ object.entry }} </p>
+    <div class="main">
+        <img src="{{article.header_image.url}}">
+        <p>{{ article.entry }}</p>
+    </div>
+
+    <div class="return">
+        <a href="{% url 'article_list' %}">Back</a>
+    </div>
+
+    <div class="other">
+        <h4>Read more:</h4>
+        <ul>
+            {% for article in other_articles %}
+                <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="comments">
+        {% for comment in comments %}
+            <p>{{ comment.author.display_name }}</p>
+            <p>{{ comment.entry }}</p>
+            <p></p>
+    </div>
+
+    <div class="make_comment">
+        {% if user.is_authenticated %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit">Post</button>
+            </form>
+        {% endif %}
+    </div>
+
+    <div class="edit">
+        {% if user == article.author %}
+            <a href="{% url 'article_edit' %}">Edit</a>
+        {% endif %}
+    </div>
 {% endblock %}
