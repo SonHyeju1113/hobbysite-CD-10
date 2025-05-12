@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Account Registion</h2>
+  <form method="POST">
+    {% csrf_token %}
+
+    Username (Cannot be changed): {{form.username}} 
+    <br><br>
+    Display Name (Can be changed anytime): {{form.display_name}} 
+    <br><br>
+    Email: {{form.email}}
+    <br><br>
+    Password: {{form.password1}}
+    <br><br>
+    Re-enter Password: {{form.password2}}
+    <br><br>
+
+    <button type="submit">Register</button>
+  </form>
+  <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+{% endblock %}
