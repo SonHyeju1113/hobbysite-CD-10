@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} Forum List {% endblock %}
+{% block content %}
+<h2>Forum Site</h2>
+    <h3>My Threads</h3>
+    {% for thread in my_threads %}
+        <a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
+        <p></p>
+    {% endfor %}
+
+    <h3>All Threads</h3>
+    {% for category, threads in other_threads_by_category.items %}
+        <h3>Topic: {{ category.name }}</h3>
+        <ul>
+            {% for thread in threads %}
+            <li>
+                <a href = "{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    <hr>
+    <a href = '{% url "forum:thread_create" %}'>Create a new thread!</a>
+{% endblock %}
