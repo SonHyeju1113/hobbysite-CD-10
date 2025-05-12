@@ -26,10 +26,29 @@
 </head>
 
 <body>
+        <table style="width:100%">
+            <tr>
+                <th><a href="/merchstore/items/">Merchandise Store</a></th>
+                <th><a href="/wiki/articles">Wiki</a></th>
+                <th><a href="/blog/articles/">Blog</a></th>
+                <th><a href="/forum/threads/">Forum</a></th>
+                <th><a href="/commissions/list/">Commissions</a></th>
+                {% if user.is_authenticated %}
+                <th><a href="/accounts/profile/">Profile</a></th>
+                <th><form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                <button type="submit">Logout</button>
+                </form></th>
+                {% else %}
+                <th><a href="/register/">Register</a></th>
+                {% endif %}
+            </tr>
+        </table>
     <h1>💖 Hobby Site 💖</h1>
-    
+    <h3>Welcome{% if user.is_authenticated %}, {{user.profile.display_name}} {% endif %}</h3>
     <div id="content">
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </div>
     
     <footer>
