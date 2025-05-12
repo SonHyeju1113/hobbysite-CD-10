@@ -14,14 +14,23 @@ class ThreadListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-
-        if user.is_authenticated:
+        other_threads_by_category = {}
+        if user.is_authenticated and hasattr(user, 'profile'):
+            profile = user.profile
             context['my_threads'] = Thread.objects.filter(author = self.request.user.profile)
-            context['other_threads'] = Thread.objects.exclude(author = self.request.user.profile)
+            
+            for category in ThreadCategory.objects.all():
+                threads = Thread.objects.filter(category = category).exclude(author = profile)
+                if threads.exists():
+                    other_threads_by_category[category] = threads
         else:
             context['my_threads'] = []
-            context['other_threads'] = Thread.objects.all()
-
+            
+            for category in ThreadCategory.objects.all():
+                threads = Thread.objects.filter(category = category)
+                if threads.exists():
+                    other_threads_by_category[category] = threads
+        context['other_threads_by_category'] = other_threads_by_category
         return context
 
 class ThreadDetailView(FormMixin, DetailView):

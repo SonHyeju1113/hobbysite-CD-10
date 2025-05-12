@@ -9,12 +9,15 @@
     {% endfor %}
 
     <h3>All Threads</h3>
-    {% for category in object_list %}
+    {% for category, threads in other_threads_by_category.items %}
         <h3>Topic: {{ category.name }}</h3>
-            {% for thread in other_threads %}
-            <a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
-            <p></p>
+        <ul>
+            {% for thread in threads %}
+            <li>
+                <a href = "{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
+            </li>
             {% endfor %}
+        </ul>
     {% endfor %}
     <hr>
     <a href = '{% url "forum:thread_create" %}'>Create a new thread!</a>
