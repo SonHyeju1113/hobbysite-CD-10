@@ -26,6 +26,19 @@ class ArticleDetail(DetailView):
 
 class ArticleCreate(CreateView):
     model = Article
+    template_name = 'wiki_create.html'
+    fields = ['title', 'category', 'entry', 'header_image']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return super().get_success_url()
+    
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
 
 class ArticleUpdate(UpdateView):
     model = Article
+    template_name = 'wiki_update.html'
