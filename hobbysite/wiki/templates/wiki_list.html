@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %} Wiki List {% endblock %}
-
 {% block content %}
-    {% for article in object_list %}
-        <a href = "{{ article.get_absolute_url }}"> {{ article.title }} </a>
-        <p> - {{ article.category.name }} - {{ article.category.description }}</p>
-        <p> - Last Updated: {{ article.updated_on }} </p>
-        <p> - Created on: {{ article.created_on }} </p>
+    {% if user.is_authenticated %}
+        <ul>
+            {% for article in user_articles %}
+                <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% for category in object_list %}
+        <p> {{category.name}} </p>
+        {% if article.author != user %}
+            <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+        {% endif %}
     {% endfor %}
 {% endblock %}
