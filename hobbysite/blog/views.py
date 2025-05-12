@@ -79,7 +79,7 @@ def article_update_view(request, pk):
         raise Http404("You are not authorized to edit this article.")
 
     if request.method == 'POST':
-        form = ArticleCreateForm(request.POST, instance=article)
+        form = ArticleCreateForm(request.POST, request.FILES, instance=article)
         if form.is_valid():
             form.save()
             return redirect('article_detail', pk=article.pk)
