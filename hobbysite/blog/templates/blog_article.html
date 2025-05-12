@@ -12,7 +12,17 @@
     <hr>
     <div class="entry-box">
         <pre style="font-size:150%">{{article.entry}}</pre>
+        {% if gallery_images %}
+        <h2>🖼️ Gallery 🖼️</h2>
+        <br>
+        {% for image in gallery_images %}
+        <img src="{{ image.image.url }}" alt="{{ image.description }}">
+        <pre style="font-size:150%">{{ image.description }}</pre>
+        <br>
+        {% endfor %}
+        {% endif %}
     </div>
+
     <hr>
     {% if user.is_authenticated %}
         {% if user.profile == article.author %}
