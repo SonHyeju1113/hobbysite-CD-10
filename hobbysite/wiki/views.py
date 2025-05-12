@@ -1,5 +1,6 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView
 from .models import Article
 
 # Create your views here.
@@ -10,3 +11,9 @@ class ArticleList(ListView):
 class ArticleDetail(DetailView):
     model = Article
     template_name = 'wiki_detail.html'
+
+class ArticleCreate(CreateView):
+    model = Article
+
+class ArticleUpdate(UpdateView):
+    model = Article
