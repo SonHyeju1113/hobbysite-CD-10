@@ -41,9 +41,7 @@ def profile_update(request):
     if request.method == 'POST':
         form = UserEditProfile(request.POST, instance=profile)
         if form.is_valid():
-            print(form.cleaned_data)
             form.save()
-            print(Profile.objects.get(user=request.user)) 
             return redirect('profile')
     else:
         form = UserEditProfile(instance=profile)
