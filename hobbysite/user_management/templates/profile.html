@@ -3,7 +3,13 @@
 {% block content %}
   <h2>User Profile</h2>
   <ul>
-    <li><strong>Username:</strong> {{ request.user.username }}</li>
-    <li><strong>Email:</strong> {{ request.user.email }}</li>
+  <strong>Username:</strong> {{ request.user.username }}
+  <br>
+  <strong>Display Name:</strong> {{ profile.display_name }}
+  <br>
+  <br>
+  <strong>Email:</strong> {{ profile.email }}
   </ul>
+  <a href="{% url 'profile_update' %}">Edit Profile</a></p>
+
 {% endblock %}
