@@ -90,3 +90,23 @@ class Comment(models.Model):
         @brief To sort the model in descending order with respect to date created.
         """
         ordering = ['-created_on']
+
+class Gallery(models.Model):
+    """
+    @brief Instantiates Gallery model.
+    """
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='article_gallery')
+    
+    image = models.ImageField(upload_to='gallery/')
+    description = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        """
+        @brief To sort the model in descending order with respect to date created.
+        """
+        ordering = ['-created_on']
