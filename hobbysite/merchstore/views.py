@@ -85,7 +85,7 @@ def merchCart(request):
 
 @login_required
 def merchTransactions(request):
-    profile = request.user.profile
-    transaction = Transaction.objects.filter(product__owner=profile).select_related('buyer', 'product').order_by('buyer')
+    transaction = Transaction.objects.filter(product__owner=request.user.profile).select_related('buyer', 'product').order_by('buyer')
     context = {'transactions': transaction}
     return render(request, 'merchstore_transaction.html', context)
+
