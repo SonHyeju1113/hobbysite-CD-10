@@ -3,7 +3,6 @@ from .models import Product, Transaction
 from .forms import ProductForm, ProductTypeForm, TransactionForm
 from django.contrib.auth.decorators import login_required
 
-
 def merchList(request):
     user_profile = getattr(request.user, "profile", None)
     
@@ -86,6 +85,7 @@ def merchCart(request):
 
 @login_required
 def merchTransactions(request):
-    transaction = Transaction.objects.filter(product__owner=request.user.profile).select_related('buyer', 'product').order_by('buyer')
+    profile = request.user.profile
+    transaction = Transaction.objects.filter(product__owner=profile).select_related('buyer', 'product').order_by('buyer')
     context = {'transactions': transaction}
     return render(request, 'merchstore_transaction.html', context)

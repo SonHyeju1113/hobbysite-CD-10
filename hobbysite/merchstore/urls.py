@@ -8,7 +8,7 @@ urlpatterns = [
     path('item/add', merchCreate, name='merchstore_create'),
     path('item/<int:pk>/edit', merchUpdate, name = 'merchstore_update'),
     path('cart/', merchCart, name='merchstore_cart'),
-    path('transactions/', merchTransactions, name ='merchstore_transactions'),
+    path('transactions/', merchTransactions, name ='merchstore_transaction'),
 ]
 
 app_name = "merchstore"
