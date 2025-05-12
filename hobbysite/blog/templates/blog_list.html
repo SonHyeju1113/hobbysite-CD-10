@@ -3,12 +3,12 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-<h2><a href="{% url 'article_create' %}" class="btn btn-primary">Create New Blog</a></h2>
+<h2><a href="{% url 'article_create' %}" class="btn btn-primary">Create New Blog Article</a></h2>
 {% endif %}
 
 {% if user.is_authenticated %}
     {% if my_articles %}
-        <h2>Authored Blog Articles:</h2>
+        <h2>My Blog Articles:</h2>
         {% for article in my_articles %}
             <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
             <br>
