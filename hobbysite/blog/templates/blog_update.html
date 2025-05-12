@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>Update Article</h2>
+  <h2>Update Blog Article</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    <strong>{{ form.title.label }}</strong>: {{ form.title }}
+    <br><br>
+    <strong>{{ form.category.label }}</strong>: {{ form.category }}
+    <br>
+    <h2>Article</h2>
+    {{ form.entry }}
+    <br><br>
+    <strong>{{ form.header_image.label }}</strong>: {{ form.header_image }}
+    <br><br>
     <button type="submit">Update</button>
   </form>
+  <br>
+  <a href="{% url 'article_detail' article.pk %}" class="btn btn-primary">Discard Changes</a>
 {% endblock %}
