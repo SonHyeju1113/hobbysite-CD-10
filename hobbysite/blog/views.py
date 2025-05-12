@@ -104,3 +104,16 @@ def article_update_view(request, pk):
     return render(request, 'blog_update.html', {'form': form,
                                                 'formset': formset,
                                                 'article': article})
+
+@login_required
+def article_delete_view(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    
+    if article.author != request.user.profile:
+        raise Http404("You are not authorized to delete this article.")
+    
+    if request.method == 'POST':
+        article.delete()
+        return redirect('articles')
+
+    return render(request, 'blog_delete.html', {'article': article})
