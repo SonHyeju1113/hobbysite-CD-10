@@ -62,7 +62,7 @@ def article_create_view(request):
             article = form.save(commit=False)
             article.author = request.user.profile
             article.save()
-            return redirect(reverse_lazy('articles'))
+            return redirect('article_detail', article.pk)
     else:
         form = ArticleCreateForm()
 
@@ -82,7 +82,7 @@ def article_update_view(request, pk):
         form = ArticleCreateForm(request.POST, instance=article)
         if form.is_valid():
             form.save()
-            return redirect(reverse_lazy('articles'))
+            return redirect('article_detail', pk=article.pk)
     else:
         form = ArticleCreateForm(instance=article)
 
