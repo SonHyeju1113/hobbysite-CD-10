@@ -27,6 +27,8 @@
     {% if user.is_authenticated %}
         {% if user.profile == article.author %}
         <a href="{% url 'article_update' article.pk  %}" class="btn btn-primary">Update Blog</a>
+        <br><br>
+        <a href="{% url 'article_delete' pk=article.pk %}" class="btn btn-danger">Delete Article</a>
         {% endif %}
     {% endif %}
     <br><br>
