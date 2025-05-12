@@ -35,7 +35,8 @@
         Write a Comment:
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form.entry }} 
+            <br>
             <button type="submit">Comment</button>
         </form>
     {% else %}
