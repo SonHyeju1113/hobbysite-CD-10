@@ -39,7 +39,7 @@ class Article(models.Model):
         ordering = ['-created_on']
 
 class Comment(models.Model):
-    author = models.ForeignKey('user_management.Profile', on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
 
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
