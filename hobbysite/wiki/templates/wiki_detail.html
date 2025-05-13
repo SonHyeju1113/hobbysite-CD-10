@@ -7,7 +7,7 @@
     </div>
 
     <div class="return">
-        <a href="{% url 'article_list' %}">Back</a>
+        <a href="{% url 'wiki:article_list' %}">Back</a>
     </div>
 
     <div class="other">
@@ -24,6 +24,7 @@
             <p>{{ comment.author.display_name }}</p>
             <p>{{ comment.entry }}</p>
             <p></p>
+        {% endfor %}
     </div>
 
     <div class="make_comment">
@@ -38,7 +39,7 @@
 
     <div class="edit">
         {% if user == article.author %}
-            <a href="{% url 'article_edit' %}">Edit</a>
+            <a href="{% url 'wiki:article_edit' %}">Edit</a>
         {% endif %}
     </div>
 {% endblock %}

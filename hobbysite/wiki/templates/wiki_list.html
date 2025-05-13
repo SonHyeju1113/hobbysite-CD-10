@@ -8,11 +8,15 @@
             {% endfor %}
         </ul>
     {% endif %}
-    {% for category in object_list %}
+    {% for category, articles in articles_by_category %}
         <p> {{ category.name }} </p>
-        {% if article.author != user %}
-            <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
-        {% endif %}
+        <ul>
+            {% for article in articles %}
+                {% if article.author != user %}
+                    <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
     {% endfor %}
     {% if user.is_authenticated %}
         <a href="{% url 'article_create' %}">Create an article</a>
