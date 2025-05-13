@@ -19,6 +19,6 @@
         </ul>
     {% endfor %}
     {% if user.is_authenticated %}
-        <a href="{% url 'article_create' %}">Create an article</a>
+        <a href="{% url 'wiki:article_create' %}">Create an article</a>
     {% endif %}
 {% endblock %}
