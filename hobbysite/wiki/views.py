@@ -1,7 +1,7 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from .models import Article, Comment
+from .models import Article, Comment, ArticleCategory
 from .forms import CommentForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,9 +17,23 @@ class ArticleList(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
 
+        categories = ArticleCategory.objects.all()
+
+        articles_by_category = []
+        for category in categories:
+            if user.is_authenticated:
+                articles = category.articles.exclude(author=user)
+            else:
+                articles = category.articles.all()
+
+            if articles.exists():
+                  articles_by_category.append((category, articles))
+        context['articles_by_category'] = articles_by_category
+ 
         if self.request.user.is_authenticated:
-            context['user_articles'] = Article.objects.filter(author=self.request.user)
+            context['user_articles'] = Article.objects.filter(author=user)
              
         return context
 
