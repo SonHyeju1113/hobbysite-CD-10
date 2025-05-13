@@ -12,7 +12,7 @@ class ArticleList(ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Article.objects.exclude(author=self.request.user)
+            return Article.objects.exclude(author=self.request.user.profile)
         return Article.objects.all()
     
     def get_context_data(self, **kwargs):
@@ -24,7 +24,7 @@ class ArticleList(ListView):
         articles_by_category = []
         for category in categories:
             if user.is_authenticated:
-                articles = category.articles.exclude(author=user)
+                articles = category.articles.exclude(author=user.profile)
             else:
                 articles = category.articles.all()
 
@@ -33,7 +33,7 @@ class ArticleList(ListView):
         context['articles_by_category'] = articles_by_category
  
         if self.request.user.is_authenticated:
-            context['user_articles'] = Article.objects.filter(author=user)
+            context['user_articles'] = Article.objects.filter(author=user.profile)
              
         return context
 
@@ -53,7 +53,7 @@ class ArticleDetail(DetailView):
         context['comments'] = Comment.objects.filter(article=article).order_by('-created_on')
         context['comment_form'] = CommentForm
         
-        if self.request.user == article.author:
+        if self.request.user.is_authenticated and self.request.user.profile == article.author:
             context['edit_link'] = reverse_lazy('article_edit', args=[article.pk])
 
         return context
@@ -64,7 +64,7 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
     fields = ['title', 'category', 'entry', 'header_image']
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.author = self.request.user.profile
         return super().form_valid(form)
     
     def get_success_url(self):
@@ -79,7 +79,7 @@ class ArticleUpdate(LoginRequiredMixin, UpdateView):
     fields = ['title', 'category', 'entry', 'header_image']
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.author = self.request.user.profile
         return super().form_valid(form)
     
     def get_success_url(self):
