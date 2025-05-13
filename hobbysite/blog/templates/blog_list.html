@@ -1,23 +1,42 @@
-{% extends 'blog_base.html' %}
+{% extends 'base.html' %}
 {% block title %} Blog List {% endblock %}
 {% block content %}
-{% for category in object_list %}
-    <h2>{{ category.name }}</h2>
-    <p>{{ category.description }}</p>
-    <table style="width:100%">
-        <tr>
-          <th>Blog Title</th>
-          <th>Created On</th>
-          <th>Last Updated</th>
-        </tr>
-        {% for article in category.category.all %}
-        <tr>
-            <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
-            <td>{{ article.created_on }}</td>
-            <td>{{ article.updated_on }}</td>
-        </tr>
+
+{% if user.is_authenticated %}
+<h2><a href="{% url 'article_create' %}" class="btn btn-primary">Create New Blog Article</a></h2>
+{% endif %}
+
+{% if user.is_authenticated %}
+    {% if my_articles %}
+        <h2>My Blog Articles:</h2>
+        {% for article in my_articles %}
+            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+            <br>
         {% endfor %}
-    </table>
-    <hr>
-{% endfor %}
+        <hr>
+    {% endif %}
+{% endif %}
+
+
+{% if object_list %}
+    <h1>All Blog Articles</h1>
+        {% for category in object_list %}
+            {% if category %}
+            <h2>Category: {{ category.name }}</h2>
+            <p>Description: {{ category.description }}</p>
+                {% for article in category.category.all %}
+                    {% if user.is_authenticated %}
+                        {% if article not in my_articles %}
+                            <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+                            <br>
+                        {% endif %}
+                    {% else %}
+                            <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+                            <br>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+{% endif %}
+<hr>
 {% endblock %}

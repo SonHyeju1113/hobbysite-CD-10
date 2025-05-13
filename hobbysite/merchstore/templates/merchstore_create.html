@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Merch Store{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+    <h2>Add Product Type</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ productType_form.name.label_tag }}
+            {{ productType_form.name }}
+        </div>
+        <div class="form-group">
+            {{ productType_form.description.label_tag }}
+            {{ productType_form.description }}
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<div class="form-container">
+    <h2>Add Product</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ product_form.name.label_tag }}
+            {{ product_form.name }}
+        </div>
+        <div class="form-group">
+            {{ product_form.product_type.label_tag }}
+            {{ product_form.product_type }}
+        </div>
+        <div class="form-group">
+            {{ product_form.description.label_tag }}
+            {{ product_form.description }}
+        </div>
+        <div class="form-group">
+            {{ product_form.price.label_tag }}
+            {{ product_form.price }}
+        </div>
+        <div class="form-group">
+            {{ product_form.stock.label_tag }}
+            {{ product_form.stock }}
+        </div>
+        <div class="form-group">
+            {{ product_form.status.label_tag }}
+            {{ product_form.status }}
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<div class="form-container">
+    <a href="{% url 'merchstore:merchstore_list' %}" class="button-link">Back to Products</a>
+</div>
+
+{% endblock %}

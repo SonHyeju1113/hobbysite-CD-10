@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %} Blog {% endblock %}
+{% block content %}
+    <h2>{{object.title}}</h2>
+    <h3>by {{object.author}}</h3>
+    <p>{{object.entry}}</p>
+    <p><small>Created on: </small> {{ object.created_on }}</p>
+    <p><small>Last Updated: </small> {{ object.updated_on }}</p>
+
+    <h3>Comments</h3>
+    {% for comment in object.comment_thread.all %}
+        <strong>{{ comment.author.display_name }}</strong>: {{ comment.entry }} <small>on {{ comment.created_on }}</small>
+        <p></p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        <h3>Leave a comment!</h3>
+        <form method = "post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type = "submit">Submit Comment</button>
+        </form>
+    {% endif %}
+
+    <hr>
+    <p>Related threads:</p>
+    {% for other in other_threads %}
+        <a href = "{{ other.get_absolute_url }}">{{ other.title }}</a>
+    {% endfor %}
+    <p></p>
+    {% if object.author.user == user %}
+        <a href = "{% url 'forum:thread_update' object.pk %}">Edit thread</a>
+    {% endif %}
+    <p></p>
+    <a href = '{% url "forum:thread_list" %}'>List of all threads</a>
+{% endblock %}
