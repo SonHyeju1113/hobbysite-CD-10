@@ -32,11 +32,10 @@ class ArticleDetail(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs.get('pk')
-        article = Article.objects.get(pk=pk)
+        article = self.get_object()
         category = article.category
 
-        context['other_articles'] = Article.objects.filter(category=category)[:2]
+        context['other_articles'] = Article.objects.filter(category=category).exclude(pk=article.pk)[:2]
         context['comments'] = Comment.objects.filter(article=article).order_by('-created_on')
         context['comment_form'] = CommentForm
         
