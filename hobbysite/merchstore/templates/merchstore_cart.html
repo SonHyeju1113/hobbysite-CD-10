@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Merch Store{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Cart</h2>
+    <ul class="text-center mb-4">
+        {% for transaction in transactions %}
+            <li class="product-item">
+                {{ transaction.product.name }} - {{ transaction.amount }} pcs
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="form-container">
+    <h3>
+        <a href="{% url 'merchstore:merchstore_list' %}" class="button-link">Back To Product List</a>
+    </h3>
+</div>
+
+{% endblock %}

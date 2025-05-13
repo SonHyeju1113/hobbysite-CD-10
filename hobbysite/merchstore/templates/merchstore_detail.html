@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Merch Store{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Lexend', sans-serif;
+        text-align: left;
+        background-color: #f9f9f9;
+        padding: 20px;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-container h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    ul.product-details {
+        list-style-type: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+    }
+
+    ul.product-details li {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    ul.product-details li strong {
+        color: #6b46c1;
+        display: inline-block;
+        width: 130px;
+    }
+
+    .purchase-form {
+        margin-top: 20px;
+    }
+
+    .purchase-form label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.25em;
+    }
+
+    .purchase-form input,
+    .purchase-form select,
+    .purchase-form textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        margin-bottom: 1em;
+        box-sizing: border-box;
+    }
+
+    .button-link,
+    .purchase-form button {
+        display: inline-block;
+        text-align: center;
+        margin-top: 10px;
+        background-color: #6b46c1;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 15px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .button-link:hover,
+    .purchase-form button:hover {
+        background-color: #553c9a;
+    }
+
+    button[disabled] {
+        background-color: #aaa;
+        cursor: not-allowed;
+    }
+</style>
+
+<div class="form-container">
+    <h2>{{ merch.name }}</h2>
+    <ul class="product-details">
+        <li><strong>Product Type:</strong> {{ merch.product_type.name }}</li>
+        <li><strong>Name:</strong> {{ merch.name }}</li>
+        <li><strong>Owner:</strong> {{ merch.owner }}</li>
+        <li><strong>Description:</strong> {{ merch.description }}</li>
+        <li><strong>Price:</strong> ₱{{ merch.price|floatformat:2 }}</li>
+        <li><strong>Stock:</strong> {{ merch.stock }}</li>
+        <li><strong>Status:</strong> {{ merch.status }}</li>
+    </ul>
+
+    {% if not can_purchase %}
+        <a href="{% url 'merchstore:merchstore_update' merch.pk %}" class="button-link">Update</a>
+    {% endif %}
+
+    {% if can_purchase and merch.stock > 0 %}
+        <form method="post" class="purchase-form">
+            {% csrf_token %}
+            {{ transact_form.as_p }}
+            <button type="submit">Buy</button>
+        </form>
+    {% else %}
+        <button class="button-link" disabled>Not Available for Purchase</button>
+    {% endif %}
+</div>
+
+<div class="form-container">
+    <a href="{% url 'merchstore:merchstore_list' %}" class="button-link">Back to Product List</a>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Merch Store{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Transactions</h2>
+    <ul class="text-center mb-4">
+        {% for transaction in transactions %}
+            <li class="product-item">
+                {% if transaction.product %}
+                    {{ transaction.product.name }}
+                {% else %}
+                    No product
+                {% endif %}
+                -
+                {% if transaction.amount %}
+                    {{ transaction.amount }}
+                {% else %}
+                    No amount
+                {% endif %}
+                pcs by 
+                {% if transaction.buyer %}
+                    {{ transaction.buyer }}
+                {% else %}
+                    No buyer
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No transactions found.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="form-container">
+    <h3>
+        <a href="{% url 'merchstore:merchstore_list' %}" class="button-link">Back to Product List</a>
+    </h3>
+</div>
+
+{% endblock %}

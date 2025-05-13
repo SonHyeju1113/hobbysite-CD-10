@@ -1,12 +1,70 @@
-{% extends 'blog_base.html' %}
+{% extends 'base.html' %}
 {% block title %} Blog {% endblock %}
 {% block content %}
+    <a href="{% url 'articles' %}" class="btn btn-primary">Go back to articles</a>
+
+    <br><br>
+    {% if article.header_image %}
+        <img src="{{ article.header_image.url }}" alt="Article Image">
+    {% endif %}
+
     <h2 style="text-align:center;">{{article.title}}</h2>
     <hr>
     <div class="entry-box">
         <pre style="font-size:150%">{{article.entry}}</pre>
+        {% if gallery_images %}
+        <h2>🖼️ Gallery 🖼️</h2>
+        <br>
+        {% for image in gallery_images %}
+        <img src="{{ image.image.url }}" alt="{{ image.description }}">
+        <pre style="font-size:150%">{{ image.description }}</pre>
+        <br>
+        {% endfor %}
+        {% endif %}
     </div>
+
     <hr>
+    {% if user.is_authenticated %}
+        {% if user.profile == article.author %}
+        <a href="{% url 'article_update' article.pk  %}" class="btn btn-primary">Update Blog</a>
+        <br><br>
+        <a href="{% url 'article_delete' pk=article.pk %}" class="btn btn-danger">Delete Article</a>
+        {% endif %}
+    {% endif %}
+    <br><br>
+    Created by: {{ article.author.display_name }}
     <p style="font-size:70%;">Created on: {{ article.created_on }}</p>
     <p style="font-size:70%;">Last Updated: {{ article.updated_on }}</p>
+
+    {% if other_articles %}
+        <strong>More Articles by {{ article.author.display_name }}</strong>
+            {% for other_article in other_articles %}
+                <li><a href="{{ other_article.get_absolute_url }}">{{ other_article.title }}</a></li>
+            {% endfor %}
+    {% endif %}
+    <hr>
+    {% if user.is_authenticated %}
+        Write a Comment:
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.entry }} 
+            <br>
+            <button type="submit">Comment</button>
+        </form>
+    {% else %}
+    You must be logged in to comment.
+    {% endif %}
+    
+    {% if article.article_comments.all %}
+        <hr>
+        <h2>💬 Comments: 💬</h2>
+        {% for comment in article.article_comments.all %}
+            <div>
+                <strong>{{ comment.author.display_name }}:</strong> {{ comment.entry }}
+                <br>
+                <small>{{ comment.created_on }}</small>
+                <br><br>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

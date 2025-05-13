@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Merch Store{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Your Products</h2>
+    {% for user_products in user_products %}
+        <div class="product-item">
+            <a href="{% url 'merchstore:merchstore_detail' user_products.pk %}">{{ user_products.name }} </a> - {{user_products.status}}
+        </div>
+    {% endfor %}
+</div>
+
+<div class="form-container">
+    <h2>Other Products</h2>
+    {% for other_products in other_products %}
+        <div class="product-item">
+            <a href="{% url 'merchstore:merchstore_detail' other_products.pk %}">{{ other_products.name }} </a> -  {{other_products.status}}
+        </div>
+    {% endfor %}
+</div>
+
+<div class="form-container">
+    <h3>
+        <a href="{% url 'merchstore:merchstore_create' %}" class="button-link">Add Product</a>
+    </h3>
+    <h3>
+        <a href="{% url 'merchstore:merchstore_cart' %}" class="button-link">Your Cart</a>
+    </h3>
+    <h3>
+        <a href="{% url 'merchstore:merchstore_transaction' %}" class="button-link">Your Transactions</a>
+    </h3>
+</div>
+
+{% endblock %}

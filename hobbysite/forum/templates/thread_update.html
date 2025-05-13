@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Update Thread</h2>
+<form method = 'post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>Author: {{ object.author.username }}</p>
+    <p>Created on: {{ object.created_on }}</p>
+    <p>Last updated on: {{ object.updated_on }}</p>
+    <button type = 'submit'>Update Thread</button>
+</form>
+
+{% endblock %}
